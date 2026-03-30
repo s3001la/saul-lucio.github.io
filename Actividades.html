@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Portafolio · Deberes y Proyectos Python · Saúl Lucio</title>
+    <!-- Font Awesome 6 & Google Font Inter -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: #0a0c12;
+            position: relative;
+            overflow-x: hidden;
+            padding: 2rem 1.5rem;
+        }
+
+        /* ---------- FONDO ANIMADO (partículas de código Python) ---------- */
+        .code-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.25;
+        }
+
+        .code-particle {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4ade80;
+            white-space: nowrap;
+            animation: floatCode linear infinite;
+            text-shadow: 0 0 5px #22c55e;
+            user-select: none;
+        }
+
+        @keyframes floatCode {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0.2;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) translateX(20px) rotate(2deg);
+                opacity: 0;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(10,12,18,0.7) 0%, rgba(10,12,18,0.85) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* contenedor principal */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #a0e9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #cbd5e6;
+            max-width: 700px;
+            margin: 0.8rem auto 0;
+        }
+
+        /* Grid de tarjetas */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Tarjetas glassmorphism */
+        .task-card {
+            background: rgba(18, 25, 35, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 1.8rem 1.5rem 2rem;
+            border: 1px solid rgba(100, 180, 255, 0.2);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .task-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.5);
+            border-color: rgba(100, 180, 255, 0.5);
+            background: rgba(18, 25, 35, 0.85);
+        }
+
+        .card-icon {
+            font-size: 2.6rem;
+            background: linear-gradient(135deg, #64b4ff, #b47cff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f0f6ff;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #cbd5e6;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #b4ceff;
+        }
+
+        .card-features li {
+            margin: 0.4rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .card-features li i {
+            color: #64ffb0;
+            width: 1.4rem;
+            font-size: 0.9rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #2563eb, #7c3aed);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+            backdrop-filter: blur(4px);
+            flex: 1 0 auto;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.5);
+            filter: brightness(1.05);
+        }
+
+        .card-footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.7rem;
+            color: #8aa3c0;
+            border-top: 1px dashed rgba(100, 180, 255, 0.3);
+            padding-top: 0.8rem;
+            text-align: right;
+        }
+
+        /* Estilos para botones de navegación (fuera del grid) */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(30, 58, 90, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            border: 1px solid rgba(100, 180, 255, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .back-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #1e4a76;
+            border-color: #6bb0ff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .back-btn:hover i {
+            transform: translateX(-4px);
+        }
+
+        .extra-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #a3c6ff;
+            font-size: 1rem;
+            text-decoration: none;
+            border-bottom: 1px dashed #4f7aa3;
+            padding: 0.5rem 0;
+        }
+
+        .extra-link:hover {
+            color: white;
+            border-bottom-color: #ffb47b;
+        }
+
+        @media (max-width: 700px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .tasks-grid {
+                grid-template-columns: 1fr;
+            }
+            .card-title {
+                font-size: 1.8rem;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            .back-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo animado con código Python (partículas flotantes) -->
+    <div class="code-bg" id="codeBackground"></div>
+    <div class="overlay"></div>
+
+    <div class="main-container">
+        <div class="hero">
+            <h1><i class="fab fa-python"></i> Portafolio de Programación</h1>
+            <p>Saúl Lucio · Deberes, lecciones y exámenes · Estructuras de control, bucles, funciones, interfaces gráficas y Java</p>
+        </div>
+
+        <div class="tasks-grid">
+            <!-- Deber 1: Sentencia if -->
+            <div class="task-card">
+                <div class="card-icon"><i class="fas fa-code-branch"></i></div>
+                <h2 class="card-title">Deber 1 · Sentencia if</h2>
+                <p class="card-desc">Ejercicios prácticos con condicionales en Python: números mayores, edad para votar, múltiplos, contraseñas, aprobado/reprobado, positivo/negativo, vocales, año bisiesto.</p>
+                <ul class="card-features">
+                    <li><i class="fas fa-check-circle"></i> if / else / elif</li>
+                    <li><i class="fas fa-check-circle"></i> Operadores relacionales y lógicos</li>
+                    <li><i class="fas fa-check-circle"></i> 10 ejercicios resueltos + videos</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="Deber 1.html" class="btn"><i class="fas fa-eye"></i> Ver contenido</a>
+                </div>
+                <div class="card-footer-note">📌 Python · condicionales</div>
+            </div>
+
+            <!-- Deber 2: Bucles -->
+            <div class="task-card">
+                <div class="card-icon"><i class="fas fa-sync-alt"></i></div>
+                <h2 class="card-title">Deber 2 · Bucles</h2>
+                <p class="card-desc">Ejercicios con for y while: números pares, tablas de multiplicar, suma acumulada, contador de vocales, validación de contraseña, múltiplos, número mayor, triángulo de asteriscos.</p>
+                <ul class="card-features">
+                    <li><i class="fas fa-check-circle"></i> range(), acumuladores, contadores</li>
+                    <li><i class="fas fa-check-circle"></i> Bucles anidados, while infinito controlado</li>
+                    <li><i class="fas fa-check-circle"></i> 10 ejercicios + videos por bloque</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="Deber 2.html" class="btn"><i class="fas fa-eye"></i> Ver contenido</a>
+                </div>
+                <div class="card-footer-note">🔄 for / while</div>
+            </div>
+
+            <!-- Deber 3: Funciones -->
+            <div class="task-card">
+                <div class="card-icon"><i class="fas fa-cubes"></i></div>
+                <h2 class="card-title">Deber 3 · Funciones</h2>
+                <p class="card-desc">Definición y uso de funciones: mensajes personalizados, par/impar, suma, cuadrado, mayor de tres, conversión Celsius a Fahrenheit, suma de lista, invertir cadena.</p>
+                <ul class="card-features">
+                    <li><i class="fas fa-check-circle"></i> Parámetros, retorno, reutilización</li>
+                    <li><i class="fas fa-check-circle"></i> Funciones con condicionales y bucles</li>
+                    <li><i class="fas fa-check-circle"></i> 10 ejercicios + videos asociados</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="Deber 3.html" class="btn"><i class="fas fa-eye"></i> Ver contenido</a>
+                </div>
+                <div class="card-footer-note">📦 def / return</div>
+            </div>
+
+            <!-- Lecciones: Condicionales, Tkinter y Java -->
+            <div class="task-card">
+                <div class="card-icon"><i class="fas fa-chalkboard-user"></i></div>
+                <h2 class="card-title">Lecciones · Condicionales + GUI + Java</h2>
+                <p class="card-desc">Calculadora básica con if/elif, aplicaciones con Tkinter: Calculadora IMC, App saludo presentación, Calculadora con botones. También calculadora en Java (switch, do-while).</p>
+                <ul class="card-features">
+                    <li><i class="fas fa-check-circle"></i> Tkinter: ventanas, Entry, Label, Button</li>
+                    <li><i class="fas fa-check-circle"></i> Programación orientada a eventos</li>
+                    <li><i class="fab fa-java"></i> Java: funciones, menú interactivo</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="Lecciones.html" class="btn"><i class="fas fa-eye"></i> Ver lecciones</a>
+                </div>
+                <div class="card-footer-note">🎯 Python + Java · GUI</div>
+            </div>
+
+            <!-- Examen Práctico (Registro Estudiantil con Tkinter) -->
+            <div class="task-card">
+                <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+                <h2 class="card-title">Examen Práctico</h2>
+                <p class="card-desc">Aplicación completa con Tkinter para registrar estudiantes, gestionar notas y asistencia. Uso de diccionarios, listas, y actualización en tiempo real.</p>
+                <ul class="card-features">
+                    <li><i class="fas fa-check-circle"></i> Interfaz: Listbox, Entry, botones</li>
+                    <li><i class="fas fa-check-circle"></i> Almacenamiento en memoria (diccionario)</li>
+                    <li><i class="fas fa-check-circle"></i> Cálculo de promedios y conteo de asistencias</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="Examen Practico.html" class="btn"><i class="fas fa-eye"></i> Ver examen práctico</a>
+                </div>
+                <div class="card-footer-note">📋 Tkinter · CRUD básico</div>
+            </div>
+
+            <!-- Examen Teórico - Práctico (Evaluación integral) -->
+            <div class="task-card">
+                <div class="card-icon"><i class="fas fa-file-alt"></i></div>
+                <h2 class="card-title">Examen Teórico - Práctico</h2>
+                <p class="card-desc">Evaluación integral de los temas: sentencias if, bucles, funciones, Tkinter y Java. Incluye video explicativo y temario completo.</p>
+                <ul class="card-features">
+                    <li><i class="fas fa-check-circle"></i> Repaso de condicionales, bucles y funciones</li>
+                    <li><i class="fas fa-check-circle"></i> Interfaces gráficas y programación en Java</li>
+                    <li><i class="fas fa-check-circle"></i> Material de apoyo y enunciados</li>
+                </ul>
+                <div class="card-actions">
+                    <a href="Examen Teorico.html" class="btn"><i class="fas fa-eye"></i> Ver examen final</a>
+                </div>
+                <div class="card-footer-note">📚 Teoría + práctica</div>
+            </div>
+        </div>
+
+        <!-- Botones de navegación (ahora fuera del grid) -->
+        <div class="nav-buttons">
+            <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver a Página Principal</a>
+            <a href="#" class="extra-link" onclick="alert('Portafolio completo de ejercicios y proyectos realizados durante el curso.'); return false;"><i class="fas fa-info-circle"></i> Acerca de este portafolio</a>
+        </div>
+    </div>
+
+    <script>
+        // Generar partículas de código Python flotantes
+        const pythonKeywords = [
+            "print()", "if", "else", "elif", "for", "while", "def", "return", 
+            "import tkinter", "range()", "input()", "int()", "float()", 
+            "and", "or", "not", "True", "False", "len()", "append()", 
+            "f-string", "lambda", "class", "self", "tk.Tk()", ".pack()"
+        ];
+
+        const bg = document.getElementById('codeBackground');
+        const PARTICLE_COUNT = 45;
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+            const span = document.createElement('div');
+            span.className = 'code-particle';
+            const randomKeyword = pythonKeywords[Math.floor(Math.random() * pythonKeywords.length)];
+            span.textContent = randomKeyword;
+            const leftPos = Math.random() * 100;
+            span.style.left = leftPos + '%';
+            const duration = 12 + Math.random() * 20;
+            span.style.animationDuration = duration + 's';
+            const delay = Math.random() * 15;
+            span.style.animationDelay = delay + 's';
+            const fontSize = 0.8 + Math.random() * 1.2;
+            span.style.fontSize = fontSize + 'rem';
+            span.style.opacity = 0.2 + Math.random() * 0.4;
+            bg.appendChild(span);
+        }
+    </script>
+</body>
+</html>

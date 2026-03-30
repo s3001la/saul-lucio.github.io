@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deber 1 · Sentencia if · Saúl Lucio</title>
+  <!-- Fuentes e iconos (mismo estilo que la portada) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #0b1a2e 0%, #1b2f44 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: #eef4fc;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(100, 180, 255, 0.2) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 140, 100, 0.15) 0%, transparent 70%);
+      bottom: -150px;
+      left: -150px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .assignment-card {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(18, 30, 41, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 3rem;
+      padding: 2.8rem 2.5rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      transition: transform 0.3s ease;
+    }
+
+    .assignment-card:hover {
+      transform: scale(1.01);
+    }
+
+    .assignment-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(100, 180, 255, 0.3);
+      padding-bottom: 1.2rem;
+    }
+
+    .assignment-header i {
+      font-size: 3rem;
+      color: #64b4ff;
+      filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.5));
+    }
+
+    .assignment-header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff, #b8dcff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.4rem;
+      color: #b0c9e8;
+      margin-bottom: 2rem;
+      background: rgba(0, 30, 60, 0.6);
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      width: fit-content;
+      border: 1px solid #2e5f88;
+      backdrop-filter: blur(4px);
+    }
+
+    .subtitle i {
+      color: #ffbb5c;
+      font-size: 1.6rem;
+    }
+
+    .video-section {
+      margin: 2.5rem 0 1.8rem;
+    }
+
+    .video-section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #c3e0ff;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #0b1a2b;
+      box-shadow: 0 20px 30px -8px black, 0 0 0 1px rgba(255, 190, 130, 0.2) inset;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .exercise-group {
+      background: rgba(10, 25, 40, 0.7);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid #2b4d6e;
+      margin-bottom: 2rem;
+    }
+
+    .exercise {
+      margin-bottom: 2rem;
+      border-bottom: 1px dashed #3a6b8f;
+      padding-bottom: 1.5rem;
+    }
+
+    .exercise:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .exercise h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #ffd7a5;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .exercise h3 i {
+      color: #64ffb0;
+      font-size: 1.4rem;
+    }
+
+    .exercise p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 4px solid #3e7fb0;
+    }
+
+    .code-block {
+      background: #0e1e2b;
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      border-left: 5px solid #64b4ff;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #d4e6ff;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 0.8rem;
+    }
+
+    .code-block .keyword {
+      color: #ffb47b;
+      font-weight: bold;
+    }
+
+    .code-block .comment {
+      color: #6a9955;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+    }
+
+    .feature-item {
+      background: #1b3349;
+      border-radius: 30px;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid #3d6385;
+    }
+
+    .feature-item i {
+      color: #64ffb0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #1e3a5a;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 500;
+      padding: 0.9rem 2.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      border: 1px solid #3e76a3;
+      transition: all 0.2s;
+    }
+
+    .back-btn i {
+      transition: transform 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #274f77;
+      border-color: #6bb0ff;
+    }
+
+    .back-btn:hover i {
+      transform: translateX(-5px);
+    }
+
+    .extra-link {
+      color: #a3c6ff;
+      font-size: 1rem;
+      text-decoration: none;
+      border-bottom: 1px dashed #4f7aa3;
+    }
+
+    .extra-link:hover {
+      color: white;
+      border-bottom-color: #ffb47b;
+    }
+
+    .assignment-footer {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      color: #8aa3c0;
+      border-top: 1px dashed #2f4b6e;
+      padding-top: 1.5rem;
+    }
+
+    .footer-tag {
+      background: #1e3347;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      border: 1px solid #34638a;
+    }
+
+    @media (max-width: 700px) {
+      .assignment-card {
+        padding: 2rem 1.5rem;
+      }
+      .assignment-header h1 {
+        font-size: 2.2rem;
+      }
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      .code-block {
+        font-size: 0.9rem;
+      }
+      .nav-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .back-btn {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="assignment-card">
+    <!-- Encabezado principal -->
+    <div class="assignment-header">
+      <i class="fas fa-code-branch"></i>
+      <h1>Deber 1: Sentencia if</h1>
+    </div>
+
+    <!-- Subtítulo corregido -->
+    <div class="subtitle">
+      <i class="fas fa-pen-fancy"></i>
+      <span>“Sentecia If” <span style="opacity:0.7;">(original)</span> → Estructura condicional en Python</span>
+    </div>
+
+    <!-- Grupo 1: Ejercicios 1 y 2 -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-dice-one"></i> Ejercicio 1: Número mayor o menor que 50</h3>
+        <p>📌 Pide un número al usuario y muestra si es mayor o igual que 50, o menor.</p>
+        <div class="code-block">
+<span class="keyword">usuario</span> = input("Ingrese su nombre: ")
+<span class="keyword">numero</span> = int(input("Ingrese un número: "))
+
+<span class="keyword">if</span> numero >= 50:
+    <span class="keyword">print</span>(usuario + ", el número ingresado es mayor o igual que 50")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>(usuario + ", el número ingresado es menor que 50")
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3><i class="fas fa-dice-two"></i> Ejercicio 2: Edad para votar</h3>
+        <p>📌 Pide la edad de una persona y determina si puede votar (18 años o más).</p>
+        <div class="code-block">
+<span class="keyword">nombre</span> = input("Ingrese su nombre: ")
+<span class="keyword">edad</span> = int(input("Ingrese su edad: "))
+
+<span class="keyword">if</span> edad >= 18:
+    <span class="keyword">print</span>(nombre + ", es mayor de edad y puede votar")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>(nombre + ", es menor de edad y NO puede votar")
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 1 (Ejercicios 1 y 2) -->
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video explicativo (Ejercicios 1 y 2)</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/19bkrRqb-SFEKU7lK-4ExRVG4sMFNbGmX/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;">
+        <i class="fas fa-clock"></i> Duración aprox. 12:29 · Alojado en Google Drive
+      </p>
+    </div>
+
+    <!-- Grupo 2: Ejercicios 3, 4 y 5 -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-dice-three"></i> Ejercicio 3: Número múltiplo de 3</h3>
+        <p>📌 Pide un número y verifica si es múltiplo de 3.</p>
+        <div class="code-block">
+<span class="keyword">numero</span> = int(input("Ingrese un número: "))
+
+<span class="keyword">if</span> numero % 3 == 0:
+    <span class="keyword">print</span>(f"{numero} es múltiplo de 3.")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>(f"{numero} NO es múltiplo de 3.")
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3><i class="fas fa-dice-four"></i> Ejercicio 4: Contraseña correcta</h3>
+        <p>📌 Pide una contraseña y comprueba si es igual a "python123".</p>
+        <div class="code-block">
+<span class="keyword">contrasena</span> = input("Ingrese su contraseña: ")
+
+<span class="keyword">if</span> contrasena == "python123":
+    <span class="keyword">print</span>("Contraseña correcta.")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>("Contraseña incorrecta.")
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3><i class="fas fa-dice-five"></i> Ejercicio 5: Aprobado o No Aprobado</h3>
+        <p>📌 Pide una nota del 0 al 10 y muestra si el estudiante está aprobado (≥ 7) o reprobado.</p>
+        <div class="code-block">
+<span class="keyword">nota</span> = float(input("Ingrese una nota: "))
+
+<span class="keyword">if</span> nota >= 7:
+    <span class="keyword">print</span>("Aprobado")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>("Reprobado")
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 2 (Ejercicios 3, 4 y 5) -->
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video explicativo (Ejercicios 3, 4 y 5)</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/18MY3UfLZu-IeocxDg9iIQfrerL09p7Nk/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;">
+        <i class="fas fa-clock"></i> Duración aprox. 10:00 · Alojado en Google Drive
+      </p>
+    </div>
+
+    <!-- Grupo 3: Ejercicios 6, 7 y 8 -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-dice-six"></i> Ejercicio 6: Número mayor</h3>
+        <p>📌 Pedir dos números y muestra cuál de los dos es mayor.</p>
+        <div class="code-block">
+<span class="keyword">print</span>("Comparación de 2 números")
+
+<span class="keyword">num1</span> = float(input("Ingresa el primer número: "))
+<span class="keyword">num2</span> = float(input("Ingresa el segundo número: "))
+
+<span class="keyword">if</span> num1 > num2:
+    <span class="keyword">print</span>(f"El número mayor es: {num1}")
+<span class="keyword">elif</span> num2 > num1:
+    <span class="keyword">print</span>(f"El número mayor es: {num2}")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>("Ambos números son iguales")
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3><i class="fas fa-dice-seven"></i> Ejercicio 7: Positivo, negativo o cero</h3>
+        <p>📌 Pide un número y determina si es positivo, negativo o cero.</p>
+        <div class="code-block">
+<span class="keyword">print</span>("Determinar signo del número")
+
+<span class="keyword">numero</span> = float(input("Ingresa un número: "))
+
+<span class="keyword">if</span> numero > 0:
+    <span class="keyword">print</span>("El número es positivo")
+<span class="keyword">elif</span> numero < 0:
+    <span class="keyword">print</span>("El número es negativo")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>("El número es cero")
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3><i class="fas fa-dice-eight"></i> Ejercicio 8: Vocal o consonante</h3>
+        <p>📌 Pide una letra e indica si es una vocal.</p>
+        <div class="code-block">
+<span class="keyword">print</span>("Verificar si es vocal o consonante")
+
+<span class="keyword">letra</span> = input("Ingresa una letra: ").lower()
+
+<span class="keyword">if</span> len(letra) == 1 and letra.isalpha():
+    <span class="keyword">if</span> letra in 'aeiou':
+        <span class="keyword">print</span>(f"'{letra}' es una vocal.")
+    <span class="keyword">else:</span>
+        <span class="keyword">print</span>(f"'{letra}' es una consonante.")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>("Por favor, ingrese una letra válida.")
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 3 (Ejercicios 6, 7 y 8) -->
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video explicativo (Ejercicios 6, 7 y 8)</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1wBiOrRYJzOtf88ppcp1ppdFzV6ahjMTD/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;">
+        <i class="fas fa-clock"></i> Duración aprox. 17:27 · Alojado en Google Drive
+      </p>
+    </div>
+
+    <!-- Grupo 4: Ejercicios 9 y 10 -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-dice-nine"></i> Ejercicio 9: ¿Hace frío?</h3>
+        <p>📌 Pide una temperatura y muestra si hace frío (menos de 15°C).</p>
+        <div class="code-block">
+<span class="keyword">print</span>("TEMPERATURA")
+
+temp = float(input("Ingrese una temperatura en °C: "))
+
+<span class="keyword">if</span> temp < 15:
+    <span class="keyword">print</span>(f"Hace frío: {temp}°C")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>(f"No hace frío: {temp}°C")
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3><i class="fas fa-dice-ten"></i> Ejercicio 10: Año bisiesto</h3>
+        <p>📌 Pide un año e indica si es bisiesto usando únicamente condiciones.</p>
+        <div class="code-block">
+<span class="keyword">print</span>("AÑO BISIESTO")
+
+year = int(input("Ingrese un año: "))
+
+<span class="keyword">if</span> (year % 4 == 0 <span class="keyword">and</span> year % 100 != 0) <span class="keyword">or</span> (year % 400 == 0):
+    <span class="keyword">print</span>(f"El año {year} es bisiesto")
+<span class="keyword">else:</span>
+    <span class="keyword">print</span>(f"El año {year} no es bisiesto")
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 4 (Ejercicios 9 y 10) -->
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video explicativo (Ejercicios 9 y 10)</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1AZTb244gLyJ6J7m-x0nRbhvz_bYrOKWZ/preview" 
+                allow="autoplay; encrypted-media" 
+                allowfullscreen>
+        </iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;">
+        <i class="fas fa-clock"></i> Duración aprox. 12:06 · Alojado en Google Drive
+      </p>
+    </div>
+
+    <!-- Conceptos clave -->
+    <div class="features">
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Condiciones: ==, <, >, <=, >=, !=</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Operadores lógicos: and, or, not</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> if / elif / else</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Anidamiento</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Métodos .lower() e .isalpha()</div>
+    </div>
+
+    <!-- Botones de navegación -->
+    <div class="nav-buttons">
+      <a href="Actividades.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver a Actividades</a>
+      <a href="#" class="extra-link" onclick="alert('Puedes personalizar este archivo o añadir más ejemplos.'); return false;"><i class="fas fa-info-circle"></i> Acerca de este deber</a>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="assignment-footer">
+      <div><i class="far fa-save"></i> Guardar como <span class="footer-tag">Deber 1.html</span></div>
+      <div><i class="fas fa-code"></i> Saúl Lucio · Estructuras condicionales</div>
+    </div>
+  </div>
+
+  <div style="position: fixed; bottom: 15px; right: 20px; opacity: 0.3; z-index: 20; pointer-events: none; font-size: 0.8rem; color: #cadff7;">
+    <i class="fas fa-crown"></i> if / elif / else
+  </div>
+</body>
+</html>

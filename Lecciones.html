@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lección: Condicionales y GUI (Tkinter) · Saúl Lucio</title>
+  <!-- Fuentes e iconos (mismo estilo que la portada) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #0b1a2e 0%, #1b2f44 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: #eef4fc;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(100, 180, 255, 0.2) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 140, 100, 0.15) 0%, transparent 70%);
+      bottom: -150px;
+      left: -150px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .lesson-card {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(18, 30, 41, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 3rem;
+      padding: 2.8rem 2.5rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      transition: transform 0.3s ease;
+    }
+
+    .lesson-card:hover {
+      transform: scale(1.01);
+    }
+
+    .lesson-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(100, 180, 255, 0.3);
+      padding-bottom: 1.2rem;
+    }
+
+    .lesson-header i {
+      font-size: 3rem;
+      color: #64b4ff;
+      filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.5));
+    }
+
+    .lesson-header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff, #b8dcff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.4rem;
+      color: #b0c9e8;
+      margin-bottom: 2rem;
+      background: rgba(0, 30, 60, 0.6);
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      width: fit-content;
+      border: 1px solid #2e5f88;
+      backdrop-filter: blur(4px);
+    }
+
+    .subtitle i {
+      color: #ffbb5c;
+      font-size: 1.6rem;
+    }
+
+    .exercise-group {
+      background: rgba(10, 25, 40, 0.7);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid #2b4d6e;
+      margin-bottom: 2rem;
+    }
+
+    .exercise {
+      margin-bottom: 2rem;
+      border-bottom: 1px dashed #3a6b8f;
+      padding-bottom: 1.5rem;
+    }
+
+    .exercise:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .exercise h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #ffd7a5;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .exercise h3 i {
+      color: #64ffb0;
+      font-size: 1.4rem;
+    }
+
+    .exercise p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 4px solid #3e7fb0;
+    }
+
+    .code-block {
+      background: #0e1e2b;
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      border-left: 5px solid #64b4ff;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #d4e6ff;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 0.8rem;
+    }
+
+    .code-block .keyword {
+      color: #ffb47b;
+      font-weight: bold;
+    }
+
+    .code-block .function {
+      color: #9bcdff;
+    }
+
+    .code-block .string {
+      color: #b5f4a5;
+    }
+
+    .code-block .comment {
+      color: #6a9955;
+    }
+
+    .video-section {
+      margin: 2.5rem 0 1.8rem;
+    }
+
+    .video-section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #c3e0ff;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #0b1a2b;
+      box-shadow: 0 20px 30px -8px black, 0 0 0 1px rgba(255, 190, 130, 0.2) inset;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+    }
+
+    .feature-item {
+      background: #1b3349;
+      border-radius: 30px;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid #3d6385;
+    }
+
+    .feature-item i {
+      color: #64ffb0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #1e3a5a;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 500;
+      padding: 0.9rem 2.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      border: 1px solid #3e76a3;
+      transition: all 0.2s;
+    }
+
+    .back-btn i {
+      transition: transform 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #274f77;
+      border-color: #6bb0ff;
+    }
+
+    .back-btn:hover i {
+      transform: translateX(-5px);
+    }
+
+    .extra-link {
+      color: #a3c6ff;
+      font-size: 1rem;
+      text-decoration: none;
+      border-bottom: 1px dashed #4f7aa3;
+    }
+
+    .extra-link:hover {
+      color: white;
+      border-bottom-color: #ffb47b;
+    }
+
+    .lesson-footer {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      color: #8aa3c0;
+      border-top: 1px dashed #2f4b6e;
+      padding-top: 1.5rem;
+    }
+
+    .footer-tag {
+      background: #1e3347;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      border: 1px solid #34638a;
+    }
+
+    @media (max-width: 700px) {
+      .lesson-card {
+        padding: 2rem 1.5rem;
+      }
+      .lesson-header h1 {
+        font-size: 2.2rem;
+      }
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      .code-block {
+        font-size: 0.85rem;
+      }
+      .nav-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .back-btn {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="lesson-card">
+    <!-- Encabezado principal -->
+    <div class="lesson-header">
+      <i class="fas fa-code-branch"></i>
+      <h1>Lección: Condicionales y GUI (Tkinter) + Java</h1>
+    </div>
+
+    <div class="subtitle">
+      <i class="fas fa-pen-fancy"></i>
+      <span>Uso de if/elif/else, funciones, ventanas gráficas con Tkinter y una calculadora en Java</span>
+    </div>
+
+    <!-- ==================== BLOQUE 1: Sentencia if (Python) ==================== -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-calculator"></i> Actuación en Clase · Calculadora básica con condicionales</h3>
+        <p>📌 Operaciones: suma, resta, multiplicación, división. Usa funciones y estructura if/elif/else.</p>
+        <div class="code-block">
+<span class="keyword">def</span> <span class="function">suma</span>(a, b):
+    <span class="keyword">return</span> a + b
+
+<span class="keyword">def</span> <span class="function">resta</span>(a, b):
+    <span class="keyword">return</span> a - b
+
+<span class="keyword">def</span> <span class="function">multiplicacion</span>(a, b):
+    <span class="keyword">return</span> a * b
+
+<span class="keyword">def</span> <span class="function">division</span>(a, b):
+    <span class="keyword">return</span> a / b
+
+<span class="function">print</span>(<span class="string">"*** Calculadora Básica ***"</span>)
+<span class="function">print</span>(<span class="string">"1. Suma"</span>)
+<span class="function">print</span>(<span class="string">"2. Resta"</span>)
+<span class="function">print</span>(<span class="string">"3. Multiplicación"</span>)
+<span class="function">print</span>(<span class="string">"4. División"</span>)
+
+opcion = <span class="function">input</span>(<span class="string">"Escoge una opción del menú: "</span>)
+
+<span class="keyword">if</span> opcion <span class="keyword">in</span> (<span class="string">"1"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>):
+    num1 = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Ingrese el 1er número: "</span>))
+    num2 = <span class="function">float</span>(<span class="function">input</span>(<span class="string">"Ingrese el 2do número: "</span>))
+
+    <span class="keyword">if</span> opcion == <span class="string">"1"</span>:
+        <span class="function">print</span>(<span class="string">f"Resultado: {suma(num1, num2)}"</span>)
+    <span class="keyword">elif</span> opcion == <span class="string">"2"</span>:
+        <span class="function">print</span>(<span class="string">f"Resultado: {resta(num1, num2)}"</span>)
+    <span class="keyword">elif</span> opcion == <span class="string">"3"</span>:
+        <span class="function">print</span>(<span class="string">f"Resultado: {multiplicacion(num1, num2)}"</span>)
+    <span class="keyword">elif</span> opcion == <span class="string">"4"</span>:
+        <span class="function">print</span>(<span class="string">f"Resultado: {division(num1, num2)}"</span>)
+<span class="keyword">else</span>:
+    <span class="function">print</span>(<span class="string">"Opción no válida. Saliendo..."</span>)
+        </div>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video: Sentencia if y calculadora básica</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/14qVTdwYpMg6XbcRYnNm3UVBMWWy6KxU-/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;"><i class="fas fa-clock"></i> Video explicativo · Alojado en Google Drive</p>
+    </div>
+
+    <!-- ==================== BLOQUE 2: Tkinter (ventanas gráficas) ==================== -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-chart-line"></i> Calculadora IMC con Tkinter</h3>
+        <p>📌 Interfaz gráfica para calcular el Índice de Masa Corporal y clasificarlo según la OMS.</p>
+        <div class="code-block">
+<span class="keyword">import</span> tkinter <span class="keyword">as</span> tk
+
+<span class="keyword">def</span> <span class="function">calcular_imc</span>():
+    peso = <span class="function">float</span>(entry_peso.<span class="function">get</span>())
+    altura = <span class="function">float</span>(entry_altura.<span class="function">get</span>())
+    imc = peso / (altura ** 2)
+
+    <span class="keyword">if</span> imc < 18.5:
+        categoria = <span class="string">"Bajo peso"</span>
+    <span class="keyword">elif</span> imc < 25:
+        categoria = <span class="string">"Normal"</span>
+    <span class="keyword">elif</span> imc < 30:
+        categoria = <span class="string">"Sobrepeso"</span>
+    <span class="keyword">else</span>:
+        categoria = <span class="string">"Obesidad"</span>
+
+    resultado.<span class="function">config</span>(text=<span class="string">f"IMC: {imc:.2f} - {categoria}"</span>)
+
+ventana = tk.Tk()
+ventana.geometry(<span class="string">"300x300"</span>)
+ventana.title(<span class="string">"Calculadora IMC"</span>)
+
+frame = tk.Frame(ventana, bg=<span class="string">"grey"</span>)
+frame.<span class="function">pack</span>(fill=<span class="string">"both"</span>, expand=<span class="keyword">True</span>)
+
+label_peso = tk.Label(frame, text=<span class="string">"Ingrese su peso (kg)"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label_peso.<span class="function">pack</span>()
+entry_peso = tk.Entry(frame)
+entry_peso.<span class="function">pack</span>()
+
+label_altura = tk.Label(frame, text=<span class="string">"Ingrese su altura (m)"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label_altura.<span class="function">pack</span>()
+entry_altura = tk.Entry(frame)
+entry_altura.<span class="function">pack</span>()
+
+button = tk.Button(frame, text=<span class="string">"Calcular IMC"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Arial"</span>, 12), command=calcular_imc)
+button.<span class="function">pack</span>()
+
+resultado = tk.Label(frame, text=<span class="string">"Resultado"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Arial"</span>, 12))
+resultado.<span class="function">pack</span>()
+
+ventana.<span class="function">mainloop</span>()
+        </div>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video: Calculadora IMC con Tkinter</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1cCsCBO1B-fTzCuo04MB0QH4kWb9gFuKO/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;"><i class="fas fa-clock"></i> Video explicativo · Alojado en Google Drive</p>
+    </div>
+
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-user-check"></i> App Saludo Presentación (Tkinter)</h3>
+        <p>📌 Interfaz que solicita nombre, apellido y edad, y muestra un mensaje personalizado.</p>
+        <div class="code-block">
+<span class="keyword">import</span> tkinter <span class="keyword">as</span> tk
+
+<span class="keyword">def</span> <span class="function">mostrar_datos</span>():
+    nombre = entry_nombre.<span class="function">get</span>()
+    apellido = entry_apellido.<span class="function">get</span>()
+    edad = entry_edad.<span class="function">get</span>()
+    resultado.<span class="function">config</span>(text=<span class="string">f"Tu nombre es {nombre} {apellido} y tu edad es {edad}."</span>)
+
+ventana = tk.Tk()
+ventana.geometry(<span class="string">"300x300"</span>)
+ventana.title(<span class="string">"Saludo de Presentación"</span>)
+
+frame = tk.Frame(ventana, bg=<span class="string">"grey"</span>)
+frame.<span class="function">pack</span>(fill=<span class="string">"both"</span>, expand=<span class="keyword">True</span>)
+
+label_nombre = tk.Label(frame, text=<span class="string">"Ingrese su nombre"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label_nombre.<span class="function">pack</span>()
+entry_nombre = tk.Entry(frame)
+entry_nombre.<span class="function">pack</span>()
+
+label_apellido = tk.Label(frame, text=<span class="string">"Ingrese su apellido"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label_apellido.<span class="function">pack</span>()
+entry_apellido = tk.Entry(frame)
+entry_apellido.<span class="function">pack</span>()
+
+label_edad = tk.Label(frame, text=<span class="string">"Ingrese su edad"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label_edad.<span class="function">pack</span>()
+entry_edad = tk.Entry(frame)
+entry_edad.<span class="function">pack</span>()
+
+button = tk.Button(frame, text=<span class="string">"Mostrar datos"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Arial"</span>, 12), command=mostrar_datos)
+button.<span class="function">pack</span>()
+
+resultado = tk.Label(frame, text=<span class="string">"Resultado"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Arial"</span>, 12))
+resultado.<span class="function">pack</span>()
+
+ventana.<span class="function">mainloop</span>()
+        </div>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video: App Saludo Presentación</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1TEsxtlIkb2QANzHvwc8g40W1B_vhWMaF/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;"><i class="fas fa-clock"></i> Video explicativo · Alojado en Google Drive</p>
+    </div>
+
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-calculator"></i> Calculadora Básica con Tkinter</h3>
+        <p>📌 Interfaz gráfica para suma, resta, multiplicación y división usando botones.</p>
+        <div class="code-block">
+<span class="keyword">import</span> tkinter <span class="keyword">as</span> tk
+
+<span class="keyword">def</span> <span class="function">obtener_valores</span>():
+    num1 = <span class="function">float</span>(entry1.<span class="function">get</span>())
+    num2 = <span class="function">float</span>(entry2.<span class="function">get</span>())
+    <span class="keyword">return</span> num1, num2
+
+<span class="keyword">def</span> <span class="function">suma</span>():
+    num1, num2 = obtener_valores()
+    resultado.<span class="function">config</span>(text=<span class="string">f"Resultado: {num1 + num2}"</span>)
+
+<span class="keyword">def</span> <span class="function">resta</span>():
+    num1, num2 = obtener_valores()
+    resultado.<span class="function">config</span>(text=<span class="string">f"Resultado: {num1 - num2}"</span>)
+
+<span class="keyword">def</span> <span class="function">multiplicacion</span>():
+    num1, num2 = obtener_valores()
+    resultado.<span class="function">config</span>(text=<span class="string">f"Resultado: {num1 * num2}"</span>)
+
+<span class="keyword">def</span> <span class="function">division</span>():
+    num1, num2 = obtener_valores()
+    <span class="keyword">if</span> num2 == 0:
+        resultado.<span class="function">config</span>(text=<span class="string">"Error: División entre cero"</span>)
+    <span class="keyword">else</span>:
+        resultado.<span class="function">config</span>(text=<span class="string">f"Resultado: {round(num1 / num2, 2)}"</span>)
+
+ventana = tk.Tk()
+ventana.geometry(<span class="string">"300x350"</span>)
+ventana.title(<span class="string">"Calculadora Básica"</span>)
+
+frame = tk.Frame(ventana, bg=<span class="string">"grey"</span>)
+frame.<span class="function">pack</span>(fill=<span class="string">"both"</span>, expand=<span class="keyword">True</span>)
+
+label1 = tk.Label(frame, text=<span class="string">"Ingrese el 1er número"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label1.<span class="function">pack</span>()
+entry1 = tk.Entry(frame)
+entry1.<span class="function">pack</span>()
+
+label2 = tk.Label(frame, text=<span class="string">"Ingrese el 2do número"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Cambria"</span>, 12))
+label2.<span class="function">pack</span>()
+entry2 = tk.Entry(frame)
+entry2.<span class="function">pack</span>()
+
+tk.Button(frame, text=<span class="string">"Sumar"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Gothic"</span>, 12), command=suma).<span class="function">pack</span>()
+tk.Button(frame, text=<span class="string">"Restar"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Gothic"</span>, 12), command=resta).<span class="function">pack</span>()
+tk.Button(frame, text=<span class="string">"Multiplicar"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Gothic"</span>, 12), command=multiplicacion).<span class="function">pack</span>()
+tk.Button(frame, text=<span class="string">"Dividir"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Gothic"</span>, 12), command=division).<span class="function">pack</span>()
+
+resultado = tk.Label(frame, text=<span class="string">"Resultado: "</span>, bg=<span class="string">"red"</span>, fg=<span class="string">"white"</span>, font=(<span class="string">"Arial"</span>, 12))
+resultado.<span class="function">pack</span>()
+
+ventana.<span class="function">mainloop</span>()
+        </div>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video: Calculadora Básica con Tkinter</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1Hd6FQ5O-AXQ7HEwpgUlu003eyHbXqqh5/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;"><i class="fas fa-clock"></i> Video explicativo · Alojado en Google Drive</p>
+    </div>
+
+    <!-- ==================== BLOQUE 3: Java (Consola) ==================== -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fab fa-java"></i> Calculadora Básica en Java (consola)</h3>
+        <p>📌 Uso de switch, do-while y funciones para operaciones aritméticas.</p>
+        <div class="code-block">
+<span class="keyword">import</span> java.util.Scanner;
+
+<span class="keyword">public class</span> Calculadora {
+
+    <span class="keyword">public static double</span> <span class="function">suma</span>(<span class="keyword">double</span> a, <span class="keyword">double</span> b) {
+        <span class="keyword">return</span> a + b;
+    }
+
+    <span class="keyword">public static double</span> <span class="function">resta</span>(<span class="keyword">double</span> a, <span class="keyword">double</span> b) {
+        <span class="keyword">return</span> a - b;
+    }
+
+    <span class="keyword">public static double</span> <span class="function">multiplicacion</span>(<span class="keyword">double</span> a, <span class="keyword">double</span> b) {
+        <span class="keyword">return</span> a * b;
+    }
+
+    <span class="keyword">public static double</span> <span class="function">division</span>(<span class="keyword">double</span> a, <span class="keyword">double</span> b) {
+        <span class="keyword">return</span> b != 0 ? a / b : 0;
+    }
+
+    <span class="keyword">public static void</span> <span class="function">main</span>(String[] args) {
+        Scanner sc = <span class="keyword">new</span> Scanner(System.in);
+        <span class="keyword">int</span> opcion;
+
+        <span class="keyword">do</span> {
+            System.out.println(<span class="string">"\n--- CALCULADORA ---"</span>);
+            System.out.println(<span class="string">"1. Suma"</span>);
+            System.out.println(<span class="string">"2. Resta"</span>);
+            System.out.println(<span class="string">"3. Multiplicación"</span>);
+            System.out.println(<span class="string">"4. División"</span>);
+            System.out.println(<span class="string">"5. Salir"</span>);
+            System.out.<span class="function">print</span>(<span class="string">"Elige una opción: "</span>);
+            opcion = sc.nextInt();
+
+            <span class="keyword">if</span> (opcion >= 1 && opcion <= 4) {
+                System.out.<span class="function">print</span>(<span class="string">"Ingrese el primer número: "</span>);
+                <span class="keyword">double</span> num1 = sc.nextDouble();
+
+                System.out.<span class="function">print</span>(<span class="string">"Ingrese el segundo número: "</span>);
+                <span class="keyword">double</span> num2 = sc.nextDouble();
+
+                <span class="keyword">double</span> resultado = 0;
+
+                <span class="keyword">switch</span> (opcion) {
+                    <span class="keyword">case</span> 1: resultado = suma(num1, num2); <span class="keyword">break</span>;
+                    <span class="keyword">case</span> 2: resultado = resta(num1, num2); <span class="keyword">break</span>;
+                    <span class="keyword">case</span> 3: resultado = multiplicacion(num1, num2); <span class="keyword">break</span>;
+                    <span class="keyword">case</span> 4: 
+                        <span class="keyword">if</span> (num2 == 0) System.out.println(<span class="string">"Error: No se puede dividir entre 0"</span>);
+                        <span class="keyword">else</span> resultado = division(num1, num2);
+                        <span class="keyword">break</span>;
+                }
+                System.out.println(<span class="string">"Resultado: "</span> + resultado);
+            }
+        } <span class="keyword">while</span> (opcion != 5);
+
+        System.out.println(<span class="string">"Programa finalizado."</span>);
+        sc.close();
+    }
+}
+        </div>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video: Calculadora Básica en Java</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1dSqdbVyxvYepiPVEOgMIjHN5BvFnM1Us/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;"><i class="fas fa-clock"></i> Video explicativo · Alojado en Google Drive</p>
+    </div>
+
+    <!-- Conceptos clave -->
+    <div class="features">
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Sentencia if / elif / else</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Funciones en Python</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Tkinter: ventanas, Entry, Label, Button</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Programación orientada a eventos</div>
+      <div class="feature-item"><i class="fab fa-java"></i> Switch, do-while en Java</div>
+    </div>
+
+    <!-- Botones de navegación -->
+    <div class="nav-buttons">
+      <a href="Actividades.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver a Actividades</a>
+      <a href="#" class="extra-link" onclick="alert('Lección completa sobre condicionales, Tkinter y Java.'); return false;"><i class="fas fa-info-circle"></i> Acerca de esta lección</a>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="lesson-footer">
+      <div><i class="far fa-save"></i> Guardar como <span class="footer-tag">Leccion_Condicionales.html</span></div>
+      <div><i class="fas fa-code"></i> Saúl Lucio · Condicionales y GUI</div>
+    </div>
+  </div>
+
+  <!-- Detalle decorativo -->
+  <div style="position: fixed; bottom: 15px; right: 20px; opacity: 0.3; z-index: 20; pointer-events: none; font-size: 0.8rem; color: #cadff7;">
+    <i class="fas fa-crown"></i> if / elif / else / tkinter / java
+  </div>
+</body>
+</html>

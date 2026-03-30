@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examen Proyecto Final · Registro Estudiantil con Tkinter · Saúl Lucio</title>
+  <!-- Fuentes e iconos (mismo estilo que la portada) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #0b1a2e 0%, #1b2f44 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      color: #eef4fc;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(100, 180, 255, 0.2) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 140, 100, 0.15) 0%, transparent 70%);
+      bottom: -150px;
+      left: -150px;
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .exam-card {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(18, 30, 41, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 3rem;
+      padding: 2.8rem 2.5rem;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      transition: transform 0.3s ease;
+    }
+
+    .exam-card:hover {
+      transform: scale(1.01);
+    }
+
+    .exam-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid rgba(100, 180, 255, 0.3);
+      padding-bottom: 1.2rem;
+    }
+
+    .exam-header i {
+      font-size: 3rem;
+      color: #64b4ff;
+      filter: drop-shadow(0 0 8px rgba(100, 180, 255, 0.5));
+    }
+
+    .exam-header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff, #b8dcff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 1.4rem;
+      color: #b0c9e8;
+      margin-bottom: 2rem;
+      background: rgba(0, 30, 60, 0.6);
+      padding: 0.8rem 1.8rem;
+      border-radius: 60px;
+      width: fit-content;
+      border: 1px solid #2e5f88;
+      backdrop-filter: blur(4px);
+    }
+
+    .subtitle i {
+      color: #ffbb5c;
+      font-size: 1.6rem;
+    }
+
+    .exercise-group {
+      background: rgba(10, 25, 40, 0.7);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid #2b4d6e;
+      margin-bottom: 2rem;
+    }
+
+    .exercise {
+      margin-bottom: 2rem;
+      border-bottom: 1px dashed #3a6b8f;
+      padding-bottom: 1.5rem;
+    }
+
+    .exercise:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .exercise h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #ffd7a5;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .exercise h3 i {
+      color: #64ffb0;
+      font-size: 1.4rem;
+    }
+
+    .exercise p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      border-left: 4px solid #3e7fb0;
+    }
+
+    .code-block {
+      background: #0e1e2b;
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      border-left: 5px solid #64b4ff;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #d4e6ff;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-top: 0.8rem;
+    }
+
+    .code-block .keyword {
+      color: #ffb47b;
+      font-weight: bold;
+    }
+
+    .code-block .function {
+      color: #9bcdff;
+    }
+
+    .code-block .string {
+      color: #b5f4a5;
+    }
+
+    .code-block .comment {
+      color: #6a9955;
+    }
+
+    .video-section {
+      margin: 2.5rem 0 1.8rem;
+    }
+
+    .video-section h2 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      color: #c3e0ff;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 28px;
+      background: #0b1a2b;
+      box-shadow: 0 20px 30px -8px black, 0 0 0 1px rgba(255, 190, 130, 0.2) inset;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 2rem 0 1.5rem;
+    }
+
+    .feature-item {
+      background: #1b3349;
+      border-radius: 30px;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid #3d6385;
+    }
+
+    .feature-item i {
+      color: #64ffb0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #1e3a5a;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 500;
+      padding: 0.9rem 2.2rem;
+      border-radius: 40px;
+      text-decoration: none;
+      border: 1px solid #3e76a3;
+      transition: all 0.2s;
+    }
+
+    .back-btn i {
+      transition: transform 0.2s;
+    }
+
+    .back-btn:hover {
+      background: #274f77;
+      border-color: #6bb0ff;
+    }
+
+    .back-btn:hover i {
+      transform: translateX(-5px);
+    }
+
+    .extra-link {
+      color: #a3c6ff;
+      font-size: 1rem;
+      text-decoration: none;
+      border-bottom: 1px dashed #4f7aa3;
+    }
+
+    .extra-link:hover {
+      color: white;
+      border-bottom-color: #ffb47b;
+    }
+
+    .exam-footer {
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      color: #8aa3c0;
+      border-top: 1px dashed #2f4b6e;
+      padding-top: 1.5rem;
+    }
+
+    .footer-tag {
+      background: #1e3347;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      border: 1px solid #34638a;
+    }
+
+    @media (max-width: 700px) {
+      .exam-card {
+        padding: 2rem 1.5rem;
+      }
+      .exam-header h1 {
+        font-size: 2.2rem;
+      }
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      .code-block {
+        font-size: 0.85rem;
+      }
+      .nav-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .back-btn {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="exam-card">
+    <!-- Encabezado principal -->
+    <div class="exam-header">
+      <i class="fas fa-clipboard-list"></i>
+      <h1>Examen Proyecto Final · Registro Estudiantil</h1>
+    </div>
+
+    <!-- Subtítulo corregido -->
+    <div class="subtitle">
+      <i class="fas fa-pen-fancy"></i>
+      <span>Aplicación completa con Tkinter: gestión de estudiantes, notas y asistencia</span>
+    </div>
+
+    <!-- ==================== PROYECTO: REGISTRO ESTUDIANTIL ==================== -->
+    <div class="exercise-group">
+      <div class="exercise">
+        <h3><i class="fas fa-user-graduate"></i> Examen Práctico: Registro de notas y asistencias</h3>
+        <p>📌 Aplicación con interfaz gráfica (Tkinter) que permite:</p>
+        <ul style="margin-left: 2rem; margin-bottom: 1rem; color: #b0c9e8;">
+          <li>Agregar estudiantes a una lista</li>
+          <li>Registrar notas (múltiples por estudiante)</li>
+          <li>Registrar asistencia (contador)</li>
+          <li>Mostrar promedio y datos completos</li>
+        </ul>
+        <div class="code-block">
+<span class="comment"># Examen Práctico - Proyecto de Aplicación</span>
+<span class="comment"># Registro de notas y asistencias estudiantiles con Tkinter</span>
+
+<span class="keyword">import</span> tkinter <span class="keyword">as</span> tk
+
+<span class="comment"># Diccionario para guardar estudiantes</span>
+estudiantes = {}
+
+<span class="comment"># Función para agregar estudiante</span>
+<span class="keyword">def</span> <span class="function">agregar_estudiante</span>():
+    nombre = entry_nombre.<span class="function">get</span>()
+    
+    <span class="keyword">if</span> nombre != <span class="string">""</span>:
+        estudiantes[nombre] = {<span class="string">"notas"</span>: [], <span class="string">"asistencia"</span>: 0}
+        lista.<span class="function">insert</span>(tk.END, nombre)
+        entry_nombre.<span class="function">delete</span>(0, tk.END)
+
+<span class="comment"># Función para agregar nota</span>
+<span class="keyword">def</span> <span class="function">agregar_nota</span>():
+    estudiante = lista.<span class="function">get</span>(tk.ACTIVE)
+    nota = entry_nota.<span class="function">get</span>()
+    
+    <span class="keyword">if</span> estudiante != <span class="string">""</span> <span class="keyword">and</span> nota != <span class="string">""</span>:
+        estudiantes[estudiante][<span class="string">"notas"</span>].<span class="function">append</span>(<span class="function">float</span>(nota))
+        entry_nota.<span class="function">delete</span>(0, tk.END)
+
+<span class="comment"># Función para registrar asistencia</span>
+<span class="keyword">def</span> <span class="function">registrar_asistencia</span>():
+    estudiante = lista.<span class="function">get</span>(tk.ACTIVE)
+    
+    <span class="keyword">if</span> estudiante != <span class="string">""</span>:
+        estudiantes[estudiante][<span class="string">"asistencia"</span>] += 1
+
+<span class="comment"># Función para mostrar resultados</span>
+<span class="keyword">def</span> <span class="function">mostrar_datos</span>():
+    estudiante = lista.<span class="function">get</span>(tk.ACTIVE)
+    
+    <span class="keyword">if</span> estudiante != <span class="string">""</span>:
+        notas = estudiantes[estudiante][<span class="string">"notas"</span>]
+        asistencia = estudiantes[estudiante][<span class="string">"asistencia"</span>]
+        
+        <span class="keyword">if</span> <span class="function">len</span>(notas) > 0:
+            promedio = <span class="function">sum</span>(notas) / <span class="function">len</span>(notas)
+        <span class="keyword">else</span>:
+            promedio = 0
+        
+        resultado.<span class="function">config</span>(text=<span class="string">f"Estudiante: {estudiante}\nNotas: {notas}\nPromedio: {promedio:.2f}\nAsistencia: {asistencia}"</span>)
+
+<span class="comment"># Ventana principal</span>
+ventana = tk.Tk()
+ventana.geometry(<span class="string">"350x450"</span>)
+ventana.title(<span class="string">"Registro Estudiantil"</span>)
+
+<span class="comment"># Frame contenedor</span>
+frame = tk.Frame(ventana, bg=<span class="string">"grey"</span>)
+frame.<span class="function">pack</span>(fill=<span class="string">"both"</span>, expand=<span class="keyword">True</span>)
+
+<span class="comment"># === INGRESO DE NOMBRE ===</span>
+tk.Label(frame, text=<span class="string">"Nombre del estudiante"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>).<span class="function">pack</span>()
+entry_nombre = tk.Entry(frame)
+entry_nombre.<span class="function">pack</span>()
+
+tk.Button(frame, text=<span class="string">"Agregar estudiante"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>, command=agregar_estudiante).<span class="function">pack</span>()
+
+<span class="comment"># === LISTA DE ESTUDIANTES ===</span>
+lista = tk.Listbox(frame)
+lista.<span class="function">pack</span>()
+
+<span class="comment"># === INGRESO DE NOTA ===</span>
+tk.Label(frame, text=<span class="string">"Ingrese nota"</span>, bg=<span class="string">"black"</span>, fg=<span class="string">"white"</span>).<span class="function">pack</span>()
+entry_nota = tk.Entry(frame)
+entry_nota.<span class="function">pack</span>()
+
+tk.Button(frame, text=<span class="string">"Agregar nota"</span>, bg=<span class="string">"blue"</span>, fg=<span class="string">"white"</span>, command=agregar_nota).<span class="function">pack</span>()
+
+<span class="comment"># === ASISTENCIA ===</span>
+tk.Button(frame, text=<span class="string">"Registrar asistencia"</span>, bg=<span class="string">"orange"</span>, fg=<span class="string">"white"</span>, command=registrar_asistencia).<span class="function">pack</span>()
+
+<span class="comment"># === MOSTRAR RESULTADOS ===</span>
+tk.Button(frame, text=<span class="string">"Mostrar datos"</span>, bg=<span class="string">"purple"</span>, fg=<span class="string">"white"</span>, command=mostrar_datos).<span class="function">pack</span>()
+
+<span class="comment"># === ÁREA DE RESULTADO ===</span>
+resultado = tk.Label(frame, text=<span class="string">"Resultado"</span>, bg=<span class="string">"green"</span>, fg=<span class="string">"white"</span>)
+resultado.<span class="function">pack</span>()
+
+ventana.<span class="function">mainloop</span>()
+        </div>
+      </div>
+    </div>
+
+    <!-- Video explicativo del proyecto -->
+    <div class="video-section">
+      <h2><i class="fas fa-video"></i> Video: Aplicación Registro Estudiantil (Tkinter)</h2>
+      <div class="video-wrapper">
+        <iframe src="https://drive.google.com/file/d/1VhquX1QF9ELHlbWeN8N0XeVYdRFEJcng/preview" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.95rem; color: #b0cff0;">
+        <i class="fas fa-clock"></i> Video explicativo · Alojado en Google Drive
+      </p>
+    </div>
+
+    <!-- Conceptos clave aplicados en el proyecto -->
+    <div class="features">
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Diccionarios en Python</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Listas anidadas</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Tkinter: Entry, Listbox, Button, Label</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Funciones con condicionales</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Eventos y actualización de interfaz</div>
+      <div class="feature-item"><i class="fas fa-check-circle"></i> Cálculo de promedios</div>
+    </div>
+
+    <!-- Botones de navegación -->
+    <div class="nav-buttons">
+      <a href="Actividades.html" class="back-btn"><i class="fas fa-arrow-left"></i> Volver a Actividades</a>
+      <a href="#" class="extra-link" onclick="alert('Proyecto final: sistema de gestión de estudiantes con Tkinter.'); return false;"><i class="fas fa-info-circle"></i> Acerca del examen</a>
+    </div>
+
+    <!-- Pie de página -->
+    <div class="exam-footer">
+      <div><i class="far fa-save"></i> Guardar como <span class="footer-tag">Examen_Proyecto_Final.html</span></div>
+      <div><i class="fas fa-code"></i> Saúl Lucio · Proyecto integrador con Tkinter</div>
+    </div>
+  </div>
+
+  <!-- Detalle decorativo -->
+  <div style="position: fixed; bottom: 15px; right: 20px; opacity: 0.3; z-index: 20; pointer-events: none; font-size: 0.8rem; color: #cadff7;">
+    <i class="fas fa-crown"></i> Tkinter · Registro Estudiantil
+  </div>
+</body>
+</html>
